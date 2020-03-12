@@ -916,6 +916,8 @@ class TemplateProcessor
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
+        //ajout waka
+        $replace = preg_replace('~\R~u', '<w:t><w:br/></w:t>', $replace);
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
