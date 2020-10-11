@@ -345,6 +345,39 @@ class TemplateProcessor
     }
 
     /**
+     * @param mixed $search
+     * @param mixed $replace
+     * @param int $limit
+     */
+    public function setHtmlValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    {
+        if (is_array($search)) {
+            foreach ($search as &$item) {
+                $item = static::ensureMacroCompleted($item);
+            }
+            unset($item);
+        } else {
+            $search = static::ensureMacroCompleted($search);
+        }
+
+        if (is_array($replace)) {
+            foreach ($replace as &$item) {
+                $item = static::ensureUtf8Encoded($item);
+            }
+            unset($item);
+        } else {
+            $replace = static::ensureUtf8Encoded($replace);
+        }
+
+        $parser = new \HTMLtoOpenXML\Parser();
+        $ooXml = $parser->fromHTML($replace);
+
+        $this->tempDocumentHeaders = $this->setValueForPart($search, $ooXml, $this->tempDocumentHeaders, $limit);
+        $this->tempDocumentMainPart = $this->setValueForPart($search, $ooXml, $this->tempDocumentMainPart, $limit);
+        $this->tempDocumentFooters = $this->setValueForPart($search, $ooXml, $this->tempDocumentFooters, $limit);
+    }
+
+    /**
      * Set values from a one-dimensional array of "variable => value"-pairs.
      *
      * @param array $values
@@ -537,9 +570,9 @@ class TemplateProcessor
         }
 
         $imageAttrs = array(
-            'src'    => $imgPath,
-            'mime'   => image_type_to_mime_type($imageType),
-            'width'  => $width,
+            'src' => $imgPath,
+            'mime' => image_type_to_mime_type($imageType),
+            'width' => $width,
             'height' => $height,
         );
 
@@ -555,9 +588,9 @@ class TemplateProcessor
         $newRelationsTypeTpl = '<Override PartName="/{RELS}" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>';
         $extTransform = array(
             'image/jpeg' => 'jpeg',
-            'image/png'  => 'png',
-            'image/bmp'  => 'bmp',
-            'image/gif'  => 'gif',
+            'image/png' => 'png',
+            'image/bmp' => 'bmp',
+            'image/gif' => 'gif',
         );
 
         // get image embed name
