@@ -347,9 +347,10 @@ class TemplateProcessor
     /**
      * @param mixed $search
      * @param mixed $replace
+     * @param bool $clean
      * @param int $limit
      */
-    public function setHtmlValue($search, $replace, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
+    public function setHtmlValue($search, $replace, $clean = false, $limit = self::MAXIMUM_REPLACEMENTS_DEFAULT)
     {
         if (is_array($search)) {
             foreach ($search as &$item) {
@@ -371,6 +372,10 @@ class TemplateProcessor
 
         $parser = new \HTMLtoOpenXML\Parser();
         $ooXml = $parser->fromHTML($replace);
+
+        if ($clean) {
+            $ooXml = str_replace("<w:r><w:rPr></w:rPr><w:t xml:space='preserve'></w:t></w:r></w:p><w:p><w:r><w:t xml:space='preserve'></w:t></w:r>", "", $ooXml);
+        }
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $ooXml, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $ooXml, $this->tempDocumentMainPart, $limit);
