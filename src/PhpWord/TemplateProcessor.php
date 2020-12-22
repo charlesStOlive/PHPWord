@@ -328,6 +328,7 @@ class TemplateProcessor
             $xmlEscaper = new Xml();
             $replace = $xmlEscaper->escape($replace);
         }
+        $replace = preg_replace('~\R~u', '<w:t><w:br/></w:t>', $replace);
 
         $this->tempDocumentHeaders = $this->setValueForPart($search, $replace, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $replace, $this->tempDocumentMainPart, $limit);
@@ -367,9 +368,7 @@ class TemplateProcessor
             $ooXml = str_replace("<w:r><w:rPr></w:rPr><w:t xml:space='preserve'></w:t></w:r></w:p><w:p><w:r><w:t xml:space='preserve'></w:t></w:r>", "", $ooXml);
         }
 
-        $this->tempDocumentHeaders = $this->setValueForPart($search, $ooXml, $this->tempDocumentHeaders, $limit);
         $this->tempDocumentMainPart = $this->setValueForPart($search, $ooXml, $this->tempDocumentMainPart, $limit);
-        $this->tempDocumentFooters = $this->setValueForPart($search, $ooXml, $this->tempDocumentFooters, $limit);
     }
 
     /**
@@ -954,8 +953,6 @@ class TemplateProcessor
      */
     protected function setValueForPart($search, $replace, $documentPartXML, $limit)
     {
-        //ajout waka
-        $replace = preg_replace('~\R~u', '<w:t><w:br/></w:t>', $replace);
         // Note: we can't use the same function for both cases here, because of performance considerations.
         if (self::MAXIMUM_REPLACEMENTS_DEFAULT === $limit) {
             return str_replace($search, $replace, $documentPartXML);
