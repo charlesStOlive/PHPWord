@@ -25,6 +25,7 @@ use PhpOffice\PhpWord\Exception\CopyFileException;
 use PhpOffice\PhpWord\Exception\CreateTemporaryFileException;
 use PhpOffice\PhpWord\Exception\Exception;
 use PhpOffice\PhpWord\Shared\ZipArchive;
+use PhpOffice\PhpWord\WakaParser\Parser as WakaParser;
 
 class TemplateProcessor
 {
@@ -361,7 +362,7 @@ class TemplateProcessor
             $replace = static::ensureUtf8Encoded($replace);
         }
 
-        $parser = new \HTMLtoOpenXML\Parser();
+        $parser = new WakaParser();
         $ooXml = $parser->fromHTML($replace);
 
         if ($clean) {
