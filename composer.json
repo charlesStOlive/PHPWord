@@ -77,12 +77,18 @@
         "check": "Runs PHP CheckStyle and PHP Mess detector",
         "fix": "Fixes issues found by PHP-CS"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/charlesStOlive/HTMLtoOpenXML.git"
+        }
+    ],
     "require": {
         "php": "^5.3.3 || ^7.0",
         "ext-xml": "*",
         "zendframework/zend-escaper": "^2.2",
         "phpoffice/common": "^0.2.9",
-        "rkorebrits/htmltoopenxml": "^0.1.9"
+        "rkorebrits/htmltoopenxml": "dev-waka"
     },
     "require-dev": {
         "ext-zip": "*",
