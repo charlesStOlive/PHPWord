@@ -1,6 +1,6 @@
 <?php
 
-namespace HTMLtoOpenXML;
+namespace PhpOffice\PhpWord\WakaParser;
 
 class Parser
 {
