@@ -80,7 +80,7 @@
     "require": {
         "php": "^5.3.3 || ^7.0 || ^8.0",
         "ext-xml": "*",
-        "rkorebrits/htmltoopenxml": "dev-waka"
+        "laminas/laminas-escaper": "^2.2"
     },
     "require-dev": {
         "ext-zip": "*",
